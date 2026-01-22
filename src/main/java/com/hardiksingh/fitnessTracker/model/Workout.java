@@ -1,0 +1,71 @@
+package com.hardiksingh.fitnessTracker.model;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.hardiksingh.fitnessTracker.enums.WorkoutType;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "workouts")
+public class Workout {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
+
+    private Long caloriesBurned;
+    private LocalDateTime createdAt;
+    private Integer duration;
+    private LocalDateTime startTime;
+    private LocalDateTime updatedAt;
+
+    @Enumerated(EnumType.STRING)
+    private WorkoutType workoutType;
+
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(columnDefinition = "json")
+    private Map<String, Object> additionalData;
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(
+            name = "uer_id",
+            nullable = false,
+            foreignKey = @ForeignKey(name = "fk_workout_user")
+    )
+    @JsonIgnore
+    private User user;
+
+    @OneToMany(
+            mappedBy = "workout",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @JsonIgnore
+    private List<Recommendation> recommendationList = new ArrayList<>();
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

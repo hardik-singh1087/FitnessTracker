@@ -5,9 +5,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hardiksingh.fitnessTracker.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.logging.log4j.util.Lazy;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -16,6 +19,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "users")
 public class User {
@@ -23,11 +27,15 @@ public class User {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
+    @CreationTimestamp
     private LocalDateTime createdAt;
+
     private String email;
     private String firstName;
     private String lastName;
     private String password;
+
+    @UpdateTimestamp
     private LocalDateTime updatedAt;
 
     @Enumerated(EnumType.STRING)

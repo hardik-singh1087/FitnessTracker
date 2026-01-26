@@ -3,6 +3,7 @@ package com.hardiksingh.fitnessTracker.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -16,6 +17,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "recommendations")
 public class Recommendation {
@@ -44,7 +46,7 @@ public class Recommendation {
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "json")
-    private List<String> safety;
+    private List<String> safetyTips;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(

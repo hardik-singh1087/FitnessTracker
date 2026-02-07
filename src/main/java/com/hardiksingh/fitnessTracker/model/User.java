@@ -30,6 +30,7 @@ public class User {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
+    @Column(unique = true)
     private String email;
     private String firstName;
     private String lastName;

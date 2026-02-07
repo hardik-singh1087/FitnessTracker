@@ -1,17 +1,15 @@
 package com.hardiksingh.fitnessTracker.dto;
 
-import com.hardiksingh.fitnessTracker.enums.Role;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegisterRequest {
+@Builder
+public class LoginRequest {
     private String email;
     private String password;
-    private String firstName;
-    private String lastName;
-    private Role role;
 }

@@ -36,10 +36,10 @@ public class WorkoutService {
                 .user(user)
                 .build();
         Workout savedWorkout = workoutRepository.save(workout);
-        return mapToReponse(savedWorkout);
+        return mapToResponse(savedWorkout);
     }
 
-    private WorkoutReponse mapToReponse(Workout savedWorkout) {
+    private WorkoutReponse mapToResponse(Workout savedWorkout) {
         return WorkoutReponse.builder()
                 .id(savedWorkout.getId())
                 .updatedAt(savedWorkout.getUpdatedAt())
@@ -59,7 +59,7 @@ public class WorkoutService {
         List<WorkoutReponse> workoutReponseList = new ArrayList<>();
         List<Workout> workoutList = user.getWorkoutList();
         for(Workout workout: workoutList){
-            workoutReponseList.add(mapToReponse(workout));
+            workoutReponseList.add(mapToResponse(workout));
         }
         return workoutReponseList;
     }

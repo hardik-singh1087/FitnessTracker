@@ -8,11 +8,9 @@ import com.hardiksingh.fitnessTracker.model.User;
 import com.hardiksingh.fitnessTracker.repository.UserRepository;
 import com.hardiksingh.fitnessTracker.security.JwtUtils;
 import com.hardiksingh.fitnessTracker.service.UserService;
-import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,27 +41,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestBody LoginRequest loginRequest) {
-        try {
-            User user = userRepository.findByEmail(loginRequest.getEmail());
-            if (user == null) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-            if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-            String token = jwtUtils.generateToken(user.getId(), user.getRole().name());
-
-            LoginReponse loginReponse = LoginReponse.builder()
-                    .token(token)
-                    .user(userService.mapToResponse(user))
-                    .build();
-
-            return new ResponseEntity<>(loginReponse, HttpStatus.OK);
-
-        } catch (AuthenticationException e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(userService.login(loginRequest), HttpStatus.OK);
     }
 
 }
